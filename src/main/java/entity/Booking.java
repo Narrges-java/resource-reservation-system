@@ -7,8 +7,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Entity
-public class Booking {
-    @Id
+public class Booking extends BaseEntity {
     @GeneratedValue
     private Long id;
     private LocalDateTime startTime;

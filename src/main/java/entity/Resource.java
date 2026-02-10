@@ -3,14 +3,14 @@ package entity;
 import entity.enums.ResourceType;
 import jakarta.persistence.*;
 import lombok.Data;
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 
 @Entity
-public class Resource  {
-
-    @Id
+public class Resource extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
