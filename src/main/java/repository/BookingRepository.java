@@ -25,6 +25,4 @@ public interface BookingRepository extends JpaRepository<Booking,Long> {
             @Param("endTime") LocalDateTime endTime
             );
 
-
-
 }

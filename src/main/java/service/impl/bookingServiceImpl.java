@@ -2,9 +2,11 @@ package service.impl;
 
 import entity.BaseEntity;
 import entity.Booking;
+import entity.Resource;
 import entity.enums.BookingType;
 import exception.BookingConflictException;
 import exception.InvalidBookingTimeException;
+import exception.ResourceInactiveException;
 import org.springframework.stereotype.Service;
 import repository.BookingRepository;
 import service.BookingService;
@@ -38,10 +40,18 @@ public class bookingServiceImpl implements BookingService {
         }
     }
 
+    //checking Activate Resource is false or true
+    private void checkActivate (Resource resource){
+        if (!resource.isActive()){
+            throw new ResourceInactiveException("Resource is inactive and cannot be booked");
+        }
+    }
+
     // create Booking
     @Override
     public Booking createBooking(Booking booking){
         validateTimeRange(booking);
+        checkActivate(booking.getResource());
         checkOverlap(booking);
         return bookingRepository.save(booking);
     }
