@@ -10,7 +10,7 @@ import java.util.List;
 public interface BookingService {
     Booking createBooking(Booking bookingId);
 
-    Booking cancelBooking (Booking booking);
+    Booking cancelBooking(Long bookingId);
 
     List<Booking> findBookingsByDateRange(LocalDateTime startTime,LocalDateTime endTime);
 

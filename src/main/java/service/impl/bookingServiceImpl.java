@@ -4,11 +4,10 @@ import entity.BaseEntity;
 import entity.Booking;
 import entity.Resource;
 import entity.enums.BookingType;
-import exception.BookingConflictException;
-import exception.InvalidBookingTimeException;
-import exception.ResourceInactiveException;
+import exception.*;
 import org.springframework.stereotype.Service;
 import repository.BookingRepository;
+import repository.ResourceRepository;
 import service.BookingService;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,9 +15,12 @@ import java.util.List;
 public class bookingServiceImpl implements BookingService {
 
     private final BookingRepository bookingRepository ;
+    private final ResourceRepository resourceRepository;
 
-    public bookingServiceImpl(BookingRepository bookingRepository) {
+
+    public bookingServiceImpl(BookingRepository bookingRepository, ResourceRepository resourceRepository) {
         this.bookingRepository = bookingRepository;
+        this.resourceRepository = resourceRepository;
     }
 
     // check TimeRange and compare is possible or not
@@ -47,23 +49,50 @@ public class bookingServiceImpl implements BookingService {
         }
     }
 
+    private Resource validateResourceExists(Booking booking) {
+
+        if (booking.getResource() == null) {
+            throw new IllegalArgumentException("Resource must not be null");
+        }
+        Long resourceId = booking.getResource().getId();
+        return resourceRepository.findById(resourceId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Resource not found"));
+    }
+
+
+
+
     // create Booking
     @Override
     public Booking createBooking(Booking booking){
         validateTimeRange(booking);
-        checkActivate(booking.getResource());
+        Resource resource = validateResourceExists(booking);
+        booking.setResource(resource);
+        checkActivate(resource);
         checkOverlap(booking);
+        booking.setStatus(BookingType.RESERVED);
         return bookingRepository.save(booking);
     }
 
+    // اینجا میایم چک میکنیم که رزروی که میخوایم کنسل کنیم وجود داره یا نه و اونرو کنسل میکنیم
     @Override
-    public Booking cancelBooking(Booking booking) {
-        return null;
+    public Booking cancelBooking(Long bookingId) {
+       Booking booking= bookingRepository.findById(bookingId).orElseThrow(()-> new BookingNotFoundException("booking not found please try again! "));
+        if (booking.getStatus() != BookingType.RESERVED){
+            throw new InvalidBookingStateException("this booking is cancel before you do this!");
+        }
+        booking.setStatus(BookingType.CANCELLED);
+        return  bookingRepository.save(booking);
     }
+
 
     @Override
     public List<Booking> findBookingsByDateRange(LocalDateTime startTime, LocalDateTime endTime) {
-        return null;
+        if (!startTime.isBefore(endTime)){
+            throw new InvalidBookingTimeException("this is not correct for finding");
+        }
+        return bookingRepository.findBookingsByDateRange(startTime,endTime);
     }
 
 }
