@@ -1,5 +1,7 @@
 package service;
 
+import dto.BookingRequestDto;
+import dto.BookingResponseDto;
 import entity.Booking;
 import org.springframework.stereotype.Service;
 
@@ -8,11 +10,13 @@ import java.util.List;
 
 @Service
 public interface BookingService {
-    Booking createBooking(Booking bookingId);
 
-    Booking cancelBooking(Long bookingId);
+    // create Booking
+    BookingResponseDto createBooking(BookingRequestDto bookingRequestDto );
 
-    List<Booking> findBookingsByDateRange(LocalDateTime startTime,LocalDateTime endTime);
+    BookingResponseDto cancelBooking(Long bookingId);
+
+    List<BookingResponseDto> findBookingsByDateRange(LocalDateTime startTime,LocalDateTime endTime);
 
 
 }
