@@ -114,8 +114,8 @@ public class BookingServiceImpl implements BookingService {
     public BookingResponseDto createBooking(BookingRequestDto bookingRequestDto){
         Booking booking = mapToRequest(bookingRequestDto);
         validateTimeRange(booking);
-       // Resource resource = validateResourceExists(booking);
-      //  booking.setResource(resource);
+        Resource resource = validateResourceExists(booking);
+        booking.setResource(resource);
         checkActivate(booking.getResource());
         checkOverlap(booking);
         booking.setStatus(BookingType.RESERVED);

@@ -2,6 +2,6 @@ package entity.enums;
 
 public enum ResourceType {
     ROOM,
-    DEVICE,
-    LAB
+    ROOM_WITH_KITCHEN,
+    ROOM_MASTER
 }

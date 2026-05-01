@@ -10,7 +10,10 @@ import java.util.List;
 
 
 @Entity
+@Table(name = "resources")
+
 public class Resource extends BaseEntity {
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
@@ -22,7 +25,7 @@ public class Resource extends BaseEntity {
     @OneToMany(mappedBy = "resource")
     private List<Booking> bookings = new ArrayList<>();
 
-    public void setId(Long id) {
+   public void setId(Long id) {
         this.id = id;
     }
 
@@ -32,7 +35,7 @@ public class Resource extends BaseEntity {
 
     public void setType(ResourceType type) {
         this.type = type;
-    }
+   }
 
     public void setCapacity(Integer capacity) {
         this.capacity = capacity;
