@@ -10,12 +10,8 @@ import java.util.List;
 
 
 @Entity
-@Table(name = "resources")
-
+@Table(name = "\"resource\"")
 public class Resource extends BaseEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     private String name;
     @Enumerated(EnumType.STRING)
     private ResourceType type;
@@ -25,9 +21,6 @@ public class Resource extends BaseEntity {
     @OneToMany(mappedBy = "resource")
     private List<Booking> bookings = new ArrayList<>();
 
-   public void setId(Long id) {
-        this.id = id;
-    }
 
     public void setName(String name) {
         this.name = name;
@@ -47,10 +40,6 @@ public class Resource extends BaseEntity {
 
     public void setBookings(List<Booking> bookings) {
         this.bookings = bookings;
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public String getName() {

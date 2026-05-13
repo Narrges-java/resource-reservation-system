@@ -7,6 +7,8 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "\"booking\"")
+
 public class Booking extends BaseEntity {
     @GeneratedValue
     private Long id;

@@ -1,8 +1,8 @@
 package controller;
+
 import dto.BookingRequestDto;
 import dto.BookingResponseDto;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import service.BookingService;
@@ -12,7 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/booking")
 public class BookingController {
-    private BookingService bookingService;
+    private final BookingService bookingService;
 
     public BookingController(BookingService bookingService) {
         this.bookingService = bookingService;
